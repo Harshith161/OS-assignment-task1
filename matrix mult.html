@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Multiplication Using Threads</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f6f9;text-align:center;padding:20px}
+.container{display:flex;justify-content:center;gap:25px;align-items:flex-start;flex-wrap:wrap}
+table{border-collapse:collapse}
+.matrix td{border:2px solid #333;width:55px;height:55px;font-size:22px;font-weight:bold}
+.monitor table{font-size:12px;min-width:220px}
+.monitor th,.monitor td{border:1px solid #333;padding:6px}
+.monitor th{background:#1565c0;color:white}
+.thread{display:inline-block;width:90px;padding:8px;margin:4px;border-radius:8px;background:#cfd8dc}
+.running{background:#ff9800;color:white}
+.done{background:#4caf50;color:white}
+.rowHighlight{background:#ffe082}
+.colHighlight{background:#81d4fa}
+.resultFilled{background:#a5d6a7}
+.progressBox{width:80%;height:25px;border:2px solid #333;border-radius:20px;margin:20px auto;overflow:hidden}
+.progress{height:100%;width:0%;background:#4caf50;transition:.5s}
+#calc{margin:15px;font-size:20px;font-weight:bold;min-height:60px}
+</style>
+</head>
+<body>
+
+<h1>Matrix Multiplication Using Multithreading</h1>
+
+<div class="container">
+
+<div>
+<h3>Matrix A</h3>
+<table class="matrix" id="A">
+<tr><td>2</td><td>3</td></tr>
+<tr><td>4</td><td>1</td></tr>
+<tr><td>6</td><td>5</td></tr>
+</table>
+</div>
+
+<div>
+<h3>Matrix B</h3>
+<table class="matrix" id="B">
+<tr><td>1</td><td>4</td><td>2</td></tr>
+<tr><td>3</td><td>2</td><td>5</td></tr>
+</table>
+</div>
+
+<div>
+<h3>Result</h3>
+<table class="matrix" id="R">
+<tr><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td></tr>
+</table>
+</div>
+
+<div class="monitor">
+<h3>Thread Activity</h3>
+<table id="activityTable">
+<tr><th>Thread</th><th>Status</th></tr>
+</table>
+</div>
+
+</div>
+
+<h3>Worker Threads</h3>
+<div id="threads"></div>
+
+<div id="calc">Waiting to start...</div>
+
+<div class="progressBox"><div class="progress" id="progress"></div></div>
+<div id="status">Creating Threads...</div>
+
+<script>
+const A=[[2,3],[4,1],[6,5]];
+const B=[[1,4,2],[3,2,5]];
+let completed=0;
+
+for(let i=0;i<3;i++){
+ for(let j=0;j<3;j++){
+  let t=document.createElement("div");
+  t.className="thread";
+  t.id=`T${i}${j}`;
+  t.innerHTML=`T(${i},${j})<br>Waiting`;
+  threads.appendChild(t);
+
+  let r=document.createElement("tr");
+  r.innerHTML=`<td>T(${i},${j})</td><td id="ACT${i}${j}">Waiting</td>`;
+  activityTable.appendChild(r);
+ }
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function clearHighlights(){
+ document.querySelectorAll("#A td").forEach(x=>x.classList.remove("rowHighlight"));
+ document.querySelectorAll("#B td").forEach(x=>x.classList.remove("colHighlight"));
+}
+
+async function worker(row,col){
+ await sleep(Math.random()*9000);
+
+ let thread=document.getElementById(`T${row}${col}`);
+ thread.classList.add("running");
+ thread.innerHTML=`T(${row},${col})<br>Running`;
+ document.getElementById(`ACT${row}${col}`).innerHTML="Running";
+
+ let sum=0;
+
+ for(let k=0;k<2;k++){
+  clearHighlights();
+
+  document.querySelectorAll(`#A tr:nth-child(${row+1}) td`)
+   .forEach(x=>x.classList.add("rowHighlight"));
+
+  document.querySelector(`#B tr:nth-child(${k+1}) td:nth-child(${col+1})`)
+   .classList.add("colHighlight");
+
+  let op=`${A[row][k]} × ${B[k][col]}`;
+
+  document.getElementById(`ACT${row}${col}`).innerHTML=op;
+
+  calc.innerHTML=`Thread T(${row},${col})<br>${op}`;
+
+  sum+=A[row][k]*B[k][col];
+
+  await sleep(3000);
+ }
+
+ document.querySelector(`#R tr:nth-child(${row+1}) td:nth-child(${col+1})`).innerHTML=sum;
+ document.querySelector(`#R tr:nth-child(${row+1}) td:nth-child(${col+1})`).classList.add("resultFilled");
+
+ thread.classList.remove("running");
+ thread.classList.add("done");
+ thread.innerHTML=`T(${row},${col})<br>Done`;
+
+ document.getElementById(`ACT${row}${col}`).innerHTML=`Done (${sum})`;
+
+ completed++;
+ progress.style.width=(completed/9*100)+"%";
+
+ status.innerHTML=`Completed Threads: ${completed}/9`;
+
+ if(completed===9){
+  clearHighlights();
+  calc.innerHTML="All Threads Completed Successfully";
+  status.innerHTML="Final Result Matrix Generated";
+ }
+}
+
+for(let i=0;i<3;i++){
+ for(let j=0;j<3;j++){
+  worker(i,j);
+ }
+}
+</script>
+
+</body>
+</html>
