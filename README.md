@@ -1,93 +1,99 @@
-# Operating Systems Tasks
+# Matrix Multiplication Visualization Using Multithreading
 
-This repository contains implementations of Operating System concepts using Java and Python.
+## 📌 Project Overview
 
-## 📌 Programs Included
+This project demonstrates how matrix multiplication can be performed using multithreading and visualized in real time. The program generates two random 100 × 100 matrices, multiplies them using multiple threads running in parallel, and displays an animation showing how the result matrix is built cell by cell.
 
-### 1. Producer-Consumer Problem (Java)
+Along with the matrix multiplication project, this repository also contains a Java implementation of the classic Producer–Consumer problem to demonstrate thread synchronization and inter-process communication concepts.
 
-A classic synchronization problem implemented using threads, `wait()`, and `notify()` methods.
-
-#### Features
-
-* Producer thread generates data.
-* Consumer thread consumes data.
-* Synchronization using monitor locks.
-* Demonstrates Inter-Process Communication (IPC) concepts.
-
-#### Concepts Used
-
-* Multithreading
-* Synchronization
-* wait()
-* notify()
-* Producer-Consumer Problem
+The main goal of this project is to understand parallel computing, thread management, synchronization, and performance optimization while providing a visual representation of the execution process.
 
 ---
 
-### 2. Matrix Multiplication Using Multithreading (Python)
+## 🚀 Features
 
-A multithreaded matrix multiplication implementation where each matrix cell is computed in parallel using a thread pool.
+### Matrix Multiplication Module
+- Generates two random 100 × 100 matrices
+- Performs matrix multiplication using multithreading
+- Utilizes all available CPU cores
+- Tracks the order in which cells are computed
+- Visualizes Matrix A, Matrix B, and Matrix C
+- Highlights the active row and column during computation
+- Displays real-time progress updates
+- Saves the complete animation as a GIF
 
-#### Features
-
-* Generates two random 100 × 100 matrices.
-* Computes Matrix C using multiple worker threads.
-* Records the completion order of each cell.
-* Creates an animation showing Matrix C being built dynamically.
-* Saves the visualization as a GIF.
-
-#### Technologies Used
-
-* Python
-* TensorFlow
-* NumPy
-* Matplotlib
-* Concurrent Futures (ThreadPoolExecutor)
-
-#### Concepts Used
-
-* Multithreading
-* Parallel Processing
-* Thread Pool
-* Matrix Operations
-* Visualization and Animation
+### Producer–Consumer Module
+- Demonstrates synchronization between threads
+- Uses `wait()` and `notify()` methods
+- Simulates a producer generating data
+- Simulates a consumer consuming data
+- Prevents race conditions using synchronization
 
 ---
 
-## 📂 Repository Structure
+## 🛠 Technologies Used
+
+### Python Project
+- Python 3
+- TensorFlow
+- NumPy
+- Matplotlib
+- ThreadPoolExecutor
+- Pillow
+
+### Java Project
+- Java
+- Multithreading
+- Synchronization
+- wait() and notify()
+
+---
+
+## 📂 Project Files
 
 ```text
+├── matrixmult.py
 ├── ProducerConsumer.java
-├── MatrixMultiplicationAnimation.py
 ├── matrix_multiplication.gif
 └── README.md
 ```
 
-## 🚀 How to Run
+---
 
-### Java Program
+## ⚙️ How Matrix Multiplication Works
 
-```bash
-javac ProducerConsumer.java
-java ProducerConsumer
-```
+### Step 1: Generate Matrices
 
-### Python Program
+Two random matrices A and B of size 100 × 100 are generated.
 
-Install required libraries:
+### Step 2: Parallel Computation
 
-```bash
-pip install tensorflow numpy matplotlib pillow
-```
+Each element of Matrix C is calculated independently using worker threads.
 
-Run:
+Formula used:
 
-```bash
-python MatrixMultiplicationAnimation.py
-```
+C[i][j] = Σ(A[i][k] × B[k][j])
 
-The generated animation will be saved as:
+Each thread computes one cell of the result matrix.
+
+### Step 3: Track Completion Order
+
+As threads finish their tasks, the order of completed cells is stored.
+
+### Step 4: Animation
+
+The animation displays:
+
+- Matrix A in blue
+- Matrix B in green
+- Matrix C being filled gradually
+- Active row highlighted in Matrix A
+- Active column highlighted in Matrix B
+- Live progress information
+
+### Step 5: GIF Export
+
+After all computations are completed, the animation is automatically saved as:
 
 ```text
 matrix_multiplication.gif
@@ -95,17 +101,149 @@ matrix_multiplication.gif
 
 ---
 
-## 🎯 Learning Objectives
+## ▶️ Running the Python Project
 
-* Understand thread creation and management.
-* Learn synchronization mechanisms.
-* Explore parallel computation techniques.
-* Visualize multithreaded execution.
-* Apply Operating System concepts in practical programs.
+### Install Required Libraries
+
+```bash
+pip install tensorflow numpy matplotlib pillow
+```
+
+### Run the Program
+
+```bash
+python matrixmult.py
+```
+
+---
+
+## 📊 Sample Output
+
+### Matrix Multiplication Output
+
+```text
+Matrix multiplication completed
+
+Execution Time: 4199.60 ms
+
+First 3 x 3 Result Sample:
+
+[9659, 9607, 8301]
+[10081, 9418, 8810]
+[10538, 10210, 9344]
+
+Saving GIF...
+
+GIF saved successfully as 'matrix_multiplication.gif'
+```
+
+---
+
+## 🎥 Animation Preview
+
+Add your generated GIF to the repository and display it using:
+
+```markdown
+## Demo
+
+![Matrix Multiplication Animation](matrix_multiplication.gif)
+```
+
+This allows visitors to see the animation directly on GitHub.
+
+---
+
+## ☕ Producer–Consumer Problem
+
+The repository also includes a Java implementation of the Producer–Consumer problem.
+
+### Concept
+
+- Producer creates data.
+- Consumer consumes data.
+- Synchronization ensures that the producer does not overwrite data before it is consumed.
+- Consumer waits when no data is available.
+- Producer waits when data has not yet been consumed.
+
+### Sample Output
+
+```text
+Producer produced: 1
+Consumer consumed: 1
+Producer produced: 2
+Consumer consumed: 2
+Producer produced: 3
+Consumer consumed: 3
+Producer produced: 4
+Consumer consumed: 4
+Producer produced: 5
+Consumer consumed: 5
+```
+
+---
+
+## ▶️ Running the Java Program
+
+Compile:
+
+```bash
+javac ProducerConsumer.java
+```
+
+Run:
+
+```bash
+java ProducerConsumer
+```
+
+---
+
+## 📚 Concepts Demonstrated
+
+- Matrix Multiplication
+- Parallel Computing
+- Multithreading
+- Thread Synchronization
+- Producer–Consumer Problem
+- TensorFlow Operations
+- Data Visualization
+- Animation using Matplotlib
+- wait() and notify()
+- Concurrent Programming
+
+---
+
+## 🎯 Learning Outcomes
+
+Through this project, I learned:
+
+- How multithreading improves computational performance
+- How tasks can be distributed among multiple threads
+- How thread synchronization works
+- How to visualize algorithm execution
+- How Producer–Consumer synchronization is implemented
+- How to create and export animations using Python
+
+---
+
+## 🔮 Future Enhancements
+
+- Support larger matrix sizes
+- Add performance comparison graphs
+- Export animations as MP4 videos
+- Add a graphical user interface
+- Visualize thread activity in real time
+- Compare sequential and parallel execution speeds
+
+---
 
 ## 👨‍💻 Author
 
-Harshith
+**Harshith**
 
-Information Science Engineering
-Operating Systems Task Repository
+Information Science Engineering Student
+
+Academic Project – Multithreading and Synchronization Demonstration
+
+---
+⭐ If you found this project interesting, consider giving the repository a star.
