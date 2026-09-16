@@ -237,13 +237,6 @@ Through this project, I learned:
 
 ---
 
-## 👨‍💻 Author
+## Conclusion
 
-**Harshith**
-
-Information Science Engineering Student
-
-Academic Project – Multithreading and Synchronization Demonstration
-
----
-⭐ If you found this project interesting, consider giving the repository a star.
+This assignment provided practical knowledge of multithreading concepts in both Java and Python. The Producer-Consumer problem demonstrated thread synchronization and communication using wait() and notify(), while the matrix multiplication task showed how large computations can be divided and executed concurrently using multiple threads. The animation further helped visualize the execution process, making it easier to understand how multithreaded programs work efficiently and safely.
