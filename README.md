@@ -230,7 +230,7 @@ Through this project, I learned:
 
 - Support larger matrix sizes
 - Add performance comparison graphs
-- Export animations as MP4 videos
+- Export animations as GIF
 - Add a graphical user interface
 - Visualize thread activity in real time
 - Compare sequential and parallel execution speeds
